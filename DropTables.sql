@@ -13,7 +13,10 @@ ALTER TABLE AD DROP constraint fk_pro_ad;
 ALTER TABLE AD DROP constraint fk_web_ad;
 ALTER TABLE CREDIT_CARD  DROP constraint fk_us_cc;
 ALTER TABLE WEB_ORDER DROP constraint fk_us_ord;
+ALTER TABLE U_CONTAINS DROP constraint fk_ord_uc;
+ALTER TABLE U_CONTAINS DROP constraint fk_pro_uc;
 
+DROP TABLE U_CONTAINS;
 DROP TABLE WEB_ORDER;
 DROP TABLE CREDIT_CARD;
 DROP TABLE CUSTOMER;
