@@ -100,12 +100,27 @@ Manufacturer_Name varchar(30),
 Primary Key(Manufacturer_ID));
 
 CREATE TABLE CUSTOMER
-( Email varchar(30) not null,
+( Email varchar(50) not null,
 LastName varchar(30) not null,
 FirstName varchar(30) not null,
 Password varchar(30) not null,
 Phone_No int,
 Primary Key(Email));
+
+CREATE TABLE CREDIT_CARD
+( CC_no int not null,
+Exp_date date not null,
+User_email varchar(50) not null,
+Primary key(CC_no),
+constraint fk_us_cc Foreign key(User_email) REFERENCES CUSTOMER(Email));
+
+CREATE TABLE WEB_ORDER
+(Order_ID int not null,
+OCost int not null,
+User_email varchar(50) not null,
+Disp_ID int not null,
+Primary key(Order_ID),
+Constraint fk_us_ord Foreign Key(User_email) REFERENCES CUSTOMER(email));
 
 
 ALTER TABLE EMPLOYEE add constraint fk_dep_emp FOREIGN KEY(Department_ID) REFERENCES DEPARTMENT(Dep_ID);
