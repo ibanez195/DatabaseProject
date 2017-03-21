@@ -68,6 +68,15 @@ Sensor_Type varchar(30),
 Primary key(CMModel_No),
 Constraint fk_pro_cm Foreign Key (CMP_ID) REFERENCES PRODUCT(Product_ID));
 
+CREATE TABLE TELEVISION
+(TP_ID int not null,
+TModel_No int not null,
+Brand varchar(30),
+Display_Type varchar(30),
+Display_Size int,
+Primary key(TModel_No),
+Constraint fk_pro_te Foreign Key (TP_ID) REFERENCES PRODUCT(Product_ID));
+
 
 
 ALTER TABLE EMPLOYEE add constraint fk_dep_emp FOREIGN KEY(Department_ID) REFERENCES DEPARTMENT(Dep_ID);
