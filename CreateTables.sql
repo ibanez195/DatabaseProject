@@ -137,6 +137,11 @@ Primary key(User_email, Order_ID),
 constraint fk_em_up foreign key(User_email) REFERENCES CUSTOMER(Email),
 constraint fk_ord_up foreign key(Order_ID) REFERENCES WEB_ORDER(Order_ID));
 
+CREATE TABLE DISPATCHER
+(Dispatcher_ID int not null,
+D_Name varchar(30) not null,
+Primary key(Dispatcher_ID));
+
 
 ALTER TABLE EMPLOYEE add constraint fk_dep_emp FOREIGN KEY(Department_ID) REFERENCES DEPARTMENT(Dep_ID);
 ALTER TABLE EMPLOYEE add constraint fk_fac_emp FOREIGN KEY(Fac_ID) REFERENCES FACILITY(Facility_ID);
