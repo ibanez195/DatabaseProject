@@ -52,12 +52,21 @@ Constraint fk_pro_wc Foreign key(Product_ID) REFERENCES PRODUCT(Product_ID));
 
 CREATE TABLE COMPUTER
 (CP_ID int not null,
-CModel_No int,
+CModel_No int not null,
 Processor varchar(30),
 Memory int,
 Storage_Size int,
 Primary key(CModel_No),
 Constraint fk_pro_com Foreign Key (CP_ID) REFERENCES PRODUCT(Product_ID));
+
+CREATE TABLE COMPUTER_MOUSE
+(CMP_ID int not null,
+CMModel_No int not null,
+DPI int,
+Wire_Type varchar(30),
+Sensor_Type varchar(30),
+Primary key(CMModel_No),
+Constraint fk_pro_cm Foreign Key (CMP_ID) REFERENCES PRODUCT(Product_ID));
 
 
 
