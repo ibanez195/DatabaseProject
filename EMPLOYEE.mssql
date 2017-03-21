@@ -1,9 +1,9 @@
 USE Retailer;
 CREATE TABLE EMPLOYEE(
-    Emp_ID NUMBER NOT NULL,
+    Emp_ID INT NOT NULL,
     LastName VARCHAR(15) NOT NULL,
     FirstName VARCHAR(15) NOT NULL,
-    EmpManager_ID NUMBER,
-    Department_ID NUMBER,
-    Fac_ID NUMBER
+    EmpManager_ID INT,
+    Department_ID INT,
+    Fac_ID INT
 );
