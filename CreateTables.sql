@@ -50,6 +50,14 @@ Primary key(WOrder_ID, Product_ID),
 Constraint fk_wo_wc Foreign key(WOrder_ID) REFERENCES WHOLESALE_ORDER(WOrder_ID),
 Constraint fk_pro_wc Foreign key(Product_ID) REFERENCES PRODUCT(Product_ID));
 
+CREATE TABLE COMPUTER
+(CP_ID int not null,
+CModel_No int,
+Processor varchar(30),
+Memory int,
+Storage_Size int,
+Primary key(CModel_No),
+Constraint fk_pro_com Foreign Key (CP_ID) REFERENCES PRODUCT(Product_ID));
 
 
 
