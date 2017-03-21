@@ -42,6 +42,15 @@ Price int,
 PManufacturer_ID int not null,
 Primary key(Product_ID));
 
+CREATE TABLE W_CONTAINS
+(WOrder_ID int not null,
+Product_ID int,
+Quantity int not null,
+Primary key(WOrder_ID, Product_ID),
+Constraint fk_wo_wc Foreign key(WOrder_ID) REFERENCES WHOLESALE_ORDER(WOrder_ID),
+Constraint fk_pro_wc Foreign key(Product_ID) REFERENCES PRODUCT(Product_ID));
+
+
 
 
 ALTER TABLE EMPLOYEE add constraint fk_dep_emp FOREIGN KEY(Department_ID) REFERENCES DEPARTMENT(Dep_ID);
