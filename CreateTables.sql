@@ -77,6 +77,16 @@ Display_Size int,
 Primary key(TModel_No),
 Constraint fk_pro_te Foreign Key (TP_ID) REFERENCES PRODUCT(Product_ID));
 
+CREATE TABLE AD
+(Ad_ID int not null,
+AdDomain varchar(30) not null,
+Company varchar(30),
+Display_Count int,
+Click_Count int, 
+Product_ID int not null,
+Primary Key(Ad_ID, Product_ID),
+Constraint fk_pro_ad Foreign Key(Product_ID) REFERENCES Product(Product_ID));
+
 
 
 ALTER TABLE EMPLOYEE add constraint fk_dep_emp FOREIGN KEY(Department_ID) REFERENCES DEPARTMENT(Dep_ID);
