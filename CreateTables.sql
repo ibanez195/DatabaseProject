@@ -95,9 +95,17 @@ Constraint fk_pro_ad Foreign Key(Product_ID) REFERENCES Product(Product_ID),
 constraint fk_web_ad foreign key(AdDomain) REFERENCES WEBSITE(Domain));
 
 CREATE TABLE MANUFACTURER
-( Manufacturer_ID int not null,
+(Manufacturer_ID int not null,
 Manufacturer_Name varchar(30),
 Primary Key(Manufacturer_ID));
+
+CREATE TABLE CUSTOMER
+( Email varchar(30) not null,
+LastName varchar(30) not null,
+FirstName varchar(30) not null,
+Password varchar(30) not null,
+Phone_No int,
+Primary Key(Email));
 
 
 ALTER TABLE EMPLOYEE add constraint fk_dep_emp FOREIGN KEY(Department_ID) REFERENCES DEPARTMENT(Dep_ID);
