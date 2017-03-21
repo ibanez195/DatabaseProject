@@ -152,6 +152,12 @@ Primary key(Email, Product_ID),
 Constraint fk_us_rev Foreign key(Email) REFERENCES CUSTOMER(Email),
 Constraint fk_pro_rev Foreign key(Product_ID) REFERENCES PRODUCT(Product_ID));
 
+CREATE TABLE CUSTOMER_ADDRESS
+(Email varchar(50) not null,
+CAddress varchar(50) not null,
+Primary key(Email),
+Constraint fk_em_ca Foreign key(Email) REFERENCES CUSTOMER(Email));
+
 
 ALTER TABLE EMPLOYEE add constraint fk_dep_emp FOREIGN KEY(Department_ID) REFERENCES DEPARTMENT(Dep_ID);
 ALTER TABLE EMPLOYEE add constraint fk_fac_emp FOREIGN KEY(Fac_ID) REFERENCES FACILITY(Facility_ID);
