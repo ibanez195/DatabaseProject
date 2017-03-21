@@ -28,6 +28,14 @@ Stock int,
 Primary key(Facility_ID, Product_ID),
 constraint fk_fac_sto Foreign key(Facility_ID) REFERENCES FACILITY(Facility_ID));
 
+CREATE TABLE WHOLESALE_ORDER
+(WOrder_ID int not null,
+F_ID int not null,
+WOrder_Cost int not null,
+Primary key(WOrder_ID),
+Constraint fk_fac_wo Foreign Key(F_ID) REFERENCES FACILITY(Facility_ID));
+
+
 ALTER TABLE EMPLOYEE add constraint fk_dep_emp FOREIGN KEY(Department_ID) REFERENCES DEPARTMENT(Dep_ID);
 ALTER TABLE EMPLOYEE add constraint fk_fac_emp FOREIGN KEY(Fac_ID) REFERENCES FACILITY(Facility_ID);
 
