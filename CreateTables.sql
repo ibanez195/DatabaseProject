@@ -35,6 +35,14 @@ WOrder_Cost int not null,
 Primary key(WOrder_ID),
 Constraint fk_fac_wo Foreign Key(F_ID) REFERENCES FACILITY(Facility_ID));
 
+CREATE TABLE PRODUCT
+(Product_ID int unique not null,
+Product_Name varchar(30) null,
+Price int,
+PManufacturer_ID int not null,
+Primary key(Product_ID));
+
+
 
 ALTER TABLE EMPLOYEE add constraint fk_dep_emp FOREIGN KEY(Department_ID) REFERENCES DEPARTMENT(Dep_ID);
 ALTER TABLE EMPLOYEE add constraint fk_fac_emp FOREIGN KEY(Fac_ID) REFERENCES FACILITY(Facility_ID);
