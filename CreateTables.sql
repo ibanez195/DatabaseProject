@@ -1,169 +1,189 @@
-CREATE TABLE EMPLOYEE
-(Emp_ID int unique not null,
-LastName varchar(15) not null,
-FirstName varchar(15) not null,
-EmpManager_ID int,
-Department_ID int not null,
-Fac_ID int not null,
-Primary key(Emp_ID));
+CREATE TABLE EMPLOYEE (
+	Emp_ID			INT UNIQUE	NOT NULL,
+	LastName		VARCHAR(15)	NOT NULL,
+	FirstName		VARCHAR(15) NOT NULL,
+	EmpManager_ID	INT,
+	Department_ID	INT			NOT NULL,
+	Fac_ID			INT			NOT NULL,
+		PRIMARY KEY(Emp_ID)
+);
 
-CREATE TABLE DEPARTMENT
-(Dep_ID int unique not null,
-DName varchar(15) not null,
-DManager_ID int not null,
-Primary key(Dep_ID),
-constraint fk_dm_dep Foreign key(DManager_ID) references EMPLOYEE(Emp_ID));
+CREATE TABLE DEPARTMENT (
+	Dep_ID			INT UNIQUE	NOT NULL,
+	DName			VARCHAR(15) NOT NULL,
+	DManager_ID		INT			NOT NULL,
+		PRIMARY KEY(Dep_ID),
+		CONSTRAINT fk_dm_dep FOREIGN KEY(DManager_ID) REFERENCES EMPLOYEE(Emp_ID)
+);
 
-CREATE TABLE FACILITY
-(Facility_ID int not null,
-FManager_ID int not null,
-Address varchar(30) not null,
-Primary key(Facility_ID),
-constraint fk_fm_fac Foreign key(FManager_ID) REFERENCES EMPLOYEE(Emp_ID));
+CREATE TABLE FACILITY (
+	Facility_ID		INT			NOT NULL,
+	FManager_ID		INT			NOT NULL,
+	FAddress		VARCHAR(30) NOT NULL,
+		PRIMARY KEY(Facility_ID),
+		CONSTRAINT fk_fm_fac FOREIGN KEY(FManager_ID) REFERENCES EMPLOYEE(Emp_ID)
+);
 
-CREATE TABLE STORES
-(Facility_ID int not null,
-Product_ID int not null,
-Stock int,
-Primary key(Facility_ID, Product_ID),
-constraint fk_fac_sto Foreign key(Facility_ID) REFERENCES FACILITY(Facility_ID));
+CREATE TABLE STORES (
+	Facility_ID		INT			NOT NULL,
+	Product_ID		INT			NOT NULL,
+	Stock			INT,
+		PRIMARY KEY(Facility_ID, Product_ID),
+		CONSTRAINT fk_fac_sto FOREIGN KEY(Facility_ID) REFERENCES FACILITY(Facility_ID)
+);
 
-CREATE TABLE WHOLESALE_ORDER
-(WOrder_ID int not null,
-F_ID int not null,
-WOrder_Cost int not null,
-Primary key(WOrder_ID),
-Constraint fk_fac_wo Foreign Key(F_ID) REFERENCES FACILITY(Facility_ID));
+CREATE TABLE WHOLESALE_ORDER (
+	WOrder_ID		INT			NOT NULL,
+	F_ID			INT			NOT NULL,
+	WOrder_Cost		INT			NOT NULL,
+		PRIMARY KEY(WOrder_ID),
+		CONSTRAINT fk_fac_wo FOREIGN KEY(F_ID) REFERENCES FACILITY(Facility_ID)
+);
 
-CREATE TABLE PRODUCT
-(Product_ID int unique not null,
-Product_Name varchar(30) null,
-Price int,
-PManufacturer_ID int not null,
-Primary key(Product_ID));
+CREATE TABLE PRODUCT (
+	Product_ID		INT UNIQUE	NOT NULL,
+	Product_Name	VARCHAR(30) NOT NULL,
+	Price			INT,
+	Manufacturer_ID INT			NOT NULL,
+		PRIMARY KEY(Product_ID)
+);
 
-CREATE TABLE W_CONTAINS
-(WOrder_ID int not null,
-Product_ID int,
-Quantity int not null,
-Primary key(WOrder_ID, Product_ID),
-Constraint fk_wo_wc Foreign key(WOrder_ID) REFERENCES WHOLESALE_ORDER(WOrder_ID),
-Constraint fk_pro_wc Foreign key(Product_ID) REFERENCES PRODUCT(Product_ID));
+CREATE TABLE W_CONTAINS (
+	WOrder_ID		INT			NOT NULL,
+	Product_ID		INT,
+	Quantity		INT			NOT NULL,
+		PRIMARY KEY(WOrder_ID, Product_ID),
+		CONSTRAINT fk_wo_wc FOREIGN KEY(WOrder_ID) REFERENCES WHOLESALE_ORDER(WOrder_ID),
+		CONSTRAINT fk_pro_wc FOREIGN KEY(Product_ID) REFERENCES PRODUCT(Product_ID)
+);
 
-CREATE TABLE COMPUTER
-(CP_ID int not null,
-CModel_No int not null,
-Processor varchar(30),
-Memory int,
-Storage_Size int,
-Primary key(CModel_No),
-Constraint fk_pro_com Foreign Key (CP_ID) REFERENCES PRODUCT(Product_ID));
+CREATE TABLE COMPUTER (
+	CP_ID			INT			NOT NULL,
+	CModel_No		INT			NOT NULL,
+	Processor		VARCHAR(30),
+	Memory			int,
+	Storage_Size	int,
+		PRIMARY KEY(CModel_No),
+		CONSTRAINT fk_pro_com FOREIGN KEY(CP_ID) REFERENCES PRODUCT(Product_ID));
 
-CREATE TABLE COMPUTER_MOUSE
-(CMP_ID int not null,
-CMModel_No int not null,
-DPI int,
-Wire_Type varchar(30),
-Sensor_Type varchar(30),
-Primary key(CMModel_No),
-Constraint fk_pro_cm Foreign Key (CMP_ID) REFERENCES PRODUCT(Product_ID));
+CREATE TABLE COMPUTER_MOUSE (
+	CMP_ID			INT			NOT NULL,
+	CMModel_No		INT			NOT NULL,
+	DPI				INT,
+	Wire_Type		VARCHAR(30),
+	Sensor_Type		VARCHAR(30),
+		PRIMARY KEY(CMModel_No),
+		CONSTRAINT fk_pro_cm FOREIGN KEY(CMP_ID) REFERENCES PRODUCT(Product_ID)
+);
 
-CREATE TABLE TELEVISION
-(TP_ID int not null,
-TModel_No int not null,
-Brand varchar(30),
-Display_Type varchar(30),
-Display_Size int,
-Primary key(TModel_No),
-Constraint fk_pro_te Foreign Key (TP_ID) REFERENCES PRODUCT(Product_ID));
+CREATE TABLE TELEVISION (
+	TP_ID			INT			NOT NULL,
+	TModel_No		INT			NOT NULL,
+	Brand			VARCHAR(30),
+	Display_Type	VARCHAR(30),
+	Display_Size	INT,
+		PRIMARY KEY(TModel_No),
+		CONSTRAINT fk_pro_te FOREIGN KEY(TP_ID) REFERENCES PRODUCT(Product_ID)
+);
 
-CREATE TABLE WEBSITE
-(Domain varchar(30) not null,
-Country varchar(30),
-Visit_Count int,
-Primary Key(Domain));
+CREATE TABLE WEBSITE (
+	Domain			VARCHAR(30)	NOT NULL,
+	Country			VARCHAR(30),
+	Visit_Count		INT,
+		PRIMARY KEY(Domain)
+);
 
-CREATE TABLE AD
-(Ad_ID int not null,
-AdDomain varchar(30) not null,
-Company varchar(30),
-Display_Count int,
-Click_Count int, 
-Product_ID int not null,
-Primary Key(Ad_ID, Product_ID),
-Constraint fk_pro_ad Foreign Key(Product_ID) REFERENCES Product(Product_ID),
-constraint fk_web_ad foreign key(AdDomain) REFERENCES WEBSITE(Domain));
+CREATE TABLE AD (
+	Ad_ID			INT			NOT NULL,
+	AdDomain		VARCHAR(30) NOT NULL,
+	Company			VARCHAR(30),
+	Display_Count	INT,
+	Click_Count		INT, 
+	Product_ID		INT			NOT NULL,
+		PRIMARY KEY(Ad_ID, Product_ID),
+		CONSTRAINT fk_pro_ad FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID),
+		CONSTRAINT fk_web_ad FOREIGN KEY(AdDomain) REFERENCES WEBSITE(Domain)
+);
 
-CREATE TABLE MANUFACTURER
-(Manufacturer_ID int not null,
-Manufacturer_Name varchar(30),
-Primary Key(Manufacturer_ID));
+CREATE TABLE MANUFACTURER (
+	Manufacturer_ID		INT			NOT NULL,
+	Manufacturer_Name	VARCHAR(30),
+		PRIMARY KEY(Manufacturer_ID)
+);
 
-CREATE TABLE CUSTOMER
-( Email varchar(50) not null,
-LastName varchar(30) not null,
-FirstName varchar(30) not null,
-Password varchar(30) not null,
-Phone_No int,
-Primary Key(Email));
+CREATE TABLE CUSTOMER (
+	Email			VARCHAR(50) NOT NULL,
+	LastName		VARCHAR(30) NOT NULL,
+	FirstName		VARCHAR(30) NOT NULL,
+	CPassword		VARCHAR(30) NOT NULL,
+	Phone_No		INT,
+		PRIMARY KEY(Email)
+);
 
-CREATE TABLE CREDIT_CARD
-( CC_no int not null,
-Exp_date date not null,
-User_email varchar(50) not null,
-Primary key(CC_no),
-constraint fk_us_cc Foreign key(User_email) REFERENCES CUSTOMER(Email));
+CREATE TABLE CREDIT_CARD (
+	CC_no			INT			NOT NULL,
+	Exp_date		DATE		NOT NULL,
+	User_email		VARCHAR(50) NOT NULL,
+		PRIMARY KEY(CC_no),
+		CONSTRAINT fk_us_cc FOREIGN KEY(User_email) REFERENCES CUSTOMER(Email)
+);
 
-CREATE TABLE WEB_ORDER
-(Order_ID int not null,
-OCost int not null,
-User_email varchar(50) not null,
-Disp_ID int not null,
-Primary key(Order_ID),
-Constraint fk_us_ord Foreign Key(User_email) REFERENCES CUSTOMER(email));
+CREATE TABLE WEB_ORDER (
+	Order_ID		INT			NOT NULL,
+	OCost			INT			NOT NULL,
+	User_email		VARCHAR(50) NOT NULL,
+	Disp_ID			INT			NOT NULL,
+		PRIMARY KEY(Order_ID),
+		CONSTRAINT fk_us_ord FOREIGN KEY(User_email) REFERENCES CUSTOMER(email)
+);
 
-CREATE TABLE C_CONTAINS
-(Order_ID int not null,
-Product_ID int not null,
-Quantity int not null,
-Primary key(Order_ID, Product_ID),
-constraint fk_ord_uc foreign key(Order_ID) REFERENCES WEB_ORDER(Order_ID),
-constraint fk_pro_uc foreign key(Product_ID) REFERENCES PRODUCT(Product_ID));
+CREATE TABLE C_CONTAINS (
+	Order_ID		INT			NOT NULL,
+	Product_ID		INT			NOT NULL,
+	Quantity		INT			NOT NULL,
+		PRIMARY KEY(Order_ID, Product_ID),
+		CONSTRAINT fk_ord_uc FOREIGN KEY(Order_ID) REFERENCES WEB_ORDER(Order_ID),
+		CONSTRAINT fk_pro_uc FOREIGN KEY(Product_ID) REFERENCES PRODUCT(Product_ID)
+);
 
-CREATE TABLE C_PLACES
-(User_email varchar(50) not null,
-Order_ID int not null,
-Primary key(User_email, Order_ID),
-constraint fk_em_up foreign key(User_email) REFERENCES CUSTOMER(Email),
-constraint fk_ord_up foreign key(Order_ID) REFERENCES WEB_ORDER(Order_ID));
+CREATE TABLE C_PLACES (
+	User_email		VARCHAR(50) NOT NULL,
+	Order_ID		INT			NOT NULL,
+		PRIMARY KEY(User_email, Order_ID),
+		CONSTRAINT fk_em_up FOREIGN KEY(User_email) REFERENCES CUSTOMER(Email),
+		CONSTRAINT fk_ord_up FOREIGN KEY(Order_ID) REFERENCES WEB_ORDER(Order_ID)
+);
 
-CREATE TABLE DISPATCHER
-(Dispatcher_ID int not null,
-D_Name varchar(30) not null,
-Primary key(Dispatcher_ID));
+CREATE TABLE DISPATCHER (
+	Dispatcher_ID	INT			NOT NULL,
+	D_Name			VARCHAR(30) NOT NULL,
+		PRIMARY KEY(Dispatcher_ID)
+);
 
 /* TODO: Add check that rating is between 0 and 10 */
-CREATE TABLE REVIEWS
-(Email varchar(50) not null,
-Product_ID int not null,
-RText varchar(150),
-Rating int not null,
-Primary key(Email, Product_ID),
-Constraint fk_us_rev Foreign key(Email) REFERENCES CUSTOMER(Email),
-Constraint fk_pro_rev Foreign key(Product_ID) REFERENCES PRODUCT(Product_ID));
+CREATE TABLE REVIEWS (
+	Email			VARCHAR(50) NOT NULL,
+	Product_ID		INT			NOT NULL,
+	RText			VARCHAR(150),
+	Rating			INT			NOT NULL,
+		PRIMARY KEY(Email, Product_ID),
+		CONSTRAINT fk_us_rev FOREIGN KEY(Email) REFERENCES CUSTOMER(Email),
+		CONSTRAINT fk_pro_rev FOREIGN KEY(Product_ID) REFERENCES PRODUCT(Product_ID)
+);
 
-CREATE TABLE CUSTOMER_ADDRESS
-(Email varchar(50) not null,
-CAddress varchar(50) not null,
-Primary key(Email),
-Constraint fk_em_ca Foreign key(Email) REFERENCES CUSTOMER(Email));
+CREATE TABLE CUSTOMER_ADDRESS (
+	Email			VARCHAR(50) NOT NULL,
+	CAddress		VARCHAR(50) NOT NULL,
+		PRIMARY KEY(Email),
+		CONSTRAINT fk_em_ca FOREIGN KEY(Email) REFERENCES CUSTOMER(Email)
+);
 
 /* Begin creation of needed foreign keys */
-ALTER TABLE EMPLOYEE add constraint fk_dep_emp FOREIGN KEY(Department_ID) REFERENCES DEPARTMENT(Dep_ID);
-ALTER TABLE EMPLOYEE add constraint fk_fac_emp FOREIGN KEY(Fac_ID) REFERENCES FACILITY(Facility_ID);
-ALTER TABLE STORES add constraint fk_pro_sto FOREIGN KEY(Product_ID) references PRODUCT(Product_ID);
-ALTER TABLE PRODUCT add constraint fk_man_pro Foreign key(PManufacturer_ID) REFERENCES MANUFACTURER(Manufacturer_ID);
-ALTER TABLE WEB_ORDER add constraint fk_dis_ord foreign key(Disp_ID) REFERENCES DISPATCHER(Dispatcher_ID);
+ALTER TABLE EMPLOYEE	ADD CONSTRAINT fk_dep_emp FOREIGN KEY(Department_ID)	REFERENCES DEPARTMENT(Dep_ID);
+ALTER TABLE EMPLOYEE	ADD CONSTRAINT fk_fac_emp FOREIGN KEY(Fac_ID)			REFERENCES FACILITY(Facility_ID);
+ALTER TABLE STORES		ADD CONSTRAINT fk_pro_sto FOREIGN KEY(Product_ID)		REFERENCES PRODUCT(Product_ID);
+ALTER TABLE PRODUCT		ADD CONSTRAINT fk_man_pro FOREIGN KEY(Manufacturer_ID)	REFERENCES MANUFACTURER(Manufacturer_ID);
+ALTER TABLE WEB_ORDER	ADD CONSTRAINT fk_dis_ord FOREIGN KEY(Disp_ID)			REFERENCES DISPATCHER(Dispatcher_ID);
 
 
 
