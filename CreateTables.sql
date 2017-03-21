@@ -21,6 +21,13 @@ Address varchar(30) not null,
 Primary key(Facility_ID),
 constraint fk_fm_fac Foreign key(FManager_ID) REFERENCES EMPLOYEE(Emp_ID));
 
+CREATE TABLE STORES
+(Facility_ID int not null,
+Product_ID int not null,
+Stock int,
+Primary key(Facility_ID, Product_ID),
+constraint fk_fac_sto Foreign key(Facility_ID) REFERENCES FACILITY(Facility_ID));
+
 ALTER TABLE EMPLOYEE add constraint fk_dep_emp FOREIGN KEY(Department_ID) REFERENCES DEPARTMENT(Dep_ID);
 ALTER TABLE EMPLOYEE add constraint fk_fac_emp FOREIGN KEY(Fac_ID) REFERENCES FACILITY(Facility_ID);
 
