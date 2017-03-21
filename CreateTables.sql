@@ -130,6 +130,13 @@ Primary key(Order_ID, Product_ID),
 constraint fk_ord_uc foreign key(Order_ID) REFERENCES WEB_ORDER(Order_ID),
 constraint fk_pro_uc foreign key(Product_ID) REFERENCES PRODUCT(Product_ID));
 
+CREATE TABLE U_PLACES
+(User_email varchar(50) not null,
+Order_ID int not null,
+Primary key(User_email, Order_ID),
+constraint fk_em_up foreign key(User_email) REFERENCES CUSTOMER(Email),
+constraint fk_ord_up foreign key(Order_ID) REFERENCES WEB_ORDER(Order_ID));
+
 
 ALTER TABLE EMPLOYEE add constraint fk_dep_emp FOREIGN KEY(Department_ID) REFERENCES DEPARTMENT(Dep_ID);
 ALTER TABLE EMPLOYEE add constraint fk_fac_emp FOREIGN KEY(Fac_ID) REFERENCES FACILITY(Facility_ID);
