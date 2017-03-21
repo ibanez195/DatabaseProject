@@ -142,6 +142,16 @@ CREATE TABLE DISPATCHER
 D_Name varchar(30) not null,
 Primary key(Dispatcher_ID));
 
+/* TODO: Add check that rating is between 0 and 10 */
+CREATE TABLE REVIEWS
+(Email varchar(50) not null,
+Product_ID int not null,
+RText varchar(150),
+Rating int not null,
+Primary key(Email, Product_ID),
+Constraint fk_us_rev Foreign key(Email) REFERENCES CUSTOMER(Email),
+Constraint fk_pro_rev Foreign key(Product_ID) REFERENCES PRODUCT(Product_ID));
+
 
 ALTER TABLE EMPLOYEE add constraint fk_dep_emp FOREIGN KEY(Department_ID) REFERENCES DEPARTMENT(Dep_ID);
 ALTER TABLE EMPLOYEE add constraint fk_fac_emp FOREIGN KEY(Fac_ID) REFERENCES FACILITY(Facility_ID);
