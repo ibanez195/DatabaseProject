@@ -160,7 +160,7 @@ CREATE TABLE DISPATCHER (
         PRIMARY KEY(Dispatcher_ID)
 );
 
-/* TODO: Add check that rating is between 0 and 10 */
+/* TODO Add check that Rating is between 0 and 5 */
 CREATE TABLE REVIEWS (
     Email           VARCHAR(50) NOT NULL,
     Product_ID      INT         NOT NULL,
