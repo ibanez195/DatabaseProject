@@ -69,7 +69,7 @@ CREATE TABLE COMPUTER (
         CONSTRAINT fk_pro_com FOREIGN KEY(CP_ID) REFERENCES PRODUCT(Product_ID));
 
 CREATE TABLE COMPUTER_MOUSE (
-    CMP_ID          INT         /*NOT NULL*/,
+    CMP_ID          INT         NOT NULL,
     CMModel_No      INT         NOT NULL,
     DPI             INT,
     Wire_Type       VARCHAR(30),
@@ -151,21 +151,12 @@ CREATE TABLE C_CONTAINS (
         CONSTRAINT fk_pro_uc FOREIGN KEY(Product_ID) REFERENCES PRODUCT(Product_ID)
 );
 
-CREATE TABLE C_PLACES (
-    User_email      VARCHAR(50) NOT NULL,
-    Order_ID        INT         NOT NULL,
-        PRIMARY KEY(User_email, Order_ID),
-        CONSTRAINT fk_em_up FOREIGN KEY(User_email) REFERENCES CUSTOMER(Email),
-        CONSTRAINT fk_ord_up FOREIGN KEY(Order_ID) REFERENCES WEB_ORDER(Order_ID)
-);
-
 CREATE TABLE DISPATCHER (
     Dispatcher_ID   INT         NOT NULL,
     D_Name          VARCHAR(30) NOT NULL,
         PRIMARY KEY(Dispatcher_ID)
 );
 
-/* TODO Add check that Rating is between 0 and 5 */
 CREATE TABLE REVIEWS (
     Email           VARCHAR(50) NOT NULL,
     Product_ID      INT         NOT NULL,
@@ -213,61 +204,39 @@ AS
 			select @user_email = inserted.user_email
 			from CREDIT_CARD AS c, inserted
 			WHERE
-			c.user_email = inserted.user_email;
+			c.user_email = inserted.User_email;
 
-		if(@user_email IS NULL)
-		begin 
-			RAISERROR('Cannot add to table if user does not have credit card', 16, 1);
-			ROLLBACK;
-		end
-	else
-		begin
-		insert into C_PLACES
-		(User_email, Order_ID)
-		values(@user_email, @order_id);
-				
-		insert into WEB_ORDER
-		(Order_ID, OCost, User_email, Disp_ID)
-		select @order_id, OCost, @user_email, Disp_ID
-		from inserted;
-		end
+			if(@user_email IS NULL)
+			begin 
+				RAISERROR('Cannot add to table if user does not have credit card', 16, 1);
+				ROLLBACK;
+			end
+			else
+			begin				
+				insert into WEB_ORDER
+				(Order_ID, OCost, User_email, Disp_ID)
+				select @order_id, OCost, @user_email, Disp_ID
+				from inserted;
+			end
 		end
 	END
 GO
 
-CREATE TRIGGER checkProductType ON PRODUCT
+CREATE TRIGGER checkValidCC ON CREDIT_CARD
 INSTEAD OF INSERT
 AS
-	declare @product_type float;
+	declare @credit_number varchar(16);
+
+	select @credit_number=i.CC_no from inserted i;
 
 	BEGIN
-		
-		select @product_type = i.Product_ID
-		from inserted as i
-		where i.Product_ID IN (Select CP_ID AS c
-								From COMPUTER
-								union
-								select CMP_ID
-								from COMPUTER_MOUSE
-								union
-								select TP_ID
-								from TELEVISION);
-								
-		
+		if(len(@credit_number) < 16 OR len(@credit_number) > 16)
+		begin
+			RAISERROR('Invalid Credit Card Number: < 16 Digits', 16, 1);
+			ROLLBACK;
+		end
+	END
 
-		if(@product_type IS NULL)
-		Begin
-			RAISERROR('Cannot add to table if product is not computer, computer mouse, or television', 16, 1);
-		ROLLBACK;
-	End
-	else
-	Begin
-		Insert into PRODUCT
-		(Product_ID, Product_Name, Price, Manufacturer_ID)
-		Select @product_type, Product_Name, Price, Manufacturer_ID
-		From inserted;
-	End
-END
 GO
 
 
@@ -380,16 +349,13 @@ INSERT INTO DISPATCHER values
 (614614, 'FedEx');
 
 INSERT INTO WEB_ORDER values
-(234234, 52, 'bobgribben@gmail.com',    614614),
+(234234, 52, 'bobgribben@gmail.com',    614614);
+INSERT INTO WEB_ORDER values
 (345345, 15, 'bobross@aim.com',         416553);
 
 INSERT INTO C_CONTAINS values
 (234234, 32123437, 1),
 (345345, 96707578, 2);
-
-INSERT INTO C_PLACES values
-('bobgribben@gmail.com',    234234),
-('bobross@aim.com',         345345);
 
 
 
