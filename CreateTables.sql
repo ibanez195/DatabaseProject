@@ -7,6 +7,7 @@ CREATE TABLE EMPLOYEE (
     Fac_ID          INT,
         PRIMARY KEY(Emp_ID)
 );
+CREATE INDEX emp_lastname ON EMPLOYEE(LastName);
 
 CREATE TABLE DEPARTMENT (
     Dep_ID          INT UNIQUE  NOT NULL,
@@ -47,6 +48,7 @@ CREATE TABLE PRODUCT (
     Manufacturer_ID INT         NOT NULL,
         PRIMARY KEY(Product_ID)
 );
+CREATE INDEX pro_man ON PRODUCT(Manufacturer_ID);
 
 CREATE TABLE W_CONTAINS (
     WOrder_ID       INT         NOT NULL,
@@ -67,7 +69,7 @@ CREATE TABLE COMPUTER (
         CONSTRAINT fk_pro_com FOREIGN KEY(CP_ID) REFERENCES PRODUCT(Product_ID));
 
 CREATE TABLE COMPUTER_MOUSE (
-    CMP_ID          INT         NOT NULL,
+    CMP_ID          INT         /*NOT NULL*/,
     CMModel_No      INT         NOT NULL,
     DPI             INT,
     Wire_Type       VARCHAR(30),
@@ -110,6 +112,7 @@ CREATE TABLE MANUFACTURER (
     Manufacturer_Name   VARCHAR(30),
         PRIMARY KEY(Manufacturer_ID)
 );
+CREATE INDEX man_name ON MANUFACTURER(Manufacturer_Name);
 
 CREATE TABLE CUSTOMER (
     Email           VARCHAR(50) NOT NULL,
@@ -119,6 +122,7 @@ CREATE TABLE CUSTOMER (
     Phone_No        VARCHAR(11),
         PRIMARY KEY(Email)
 );
+CREATE INDEX cust_name ON CUSTOMER(LastName);
 
 CREATE TABLE CREDIT_CARD (
     CC_no           VARCHAR(16) NOT NULL,
@@ -136,6 +140,7 @@ CREATE TABLE WEB_ORDER (
         PRIMARY KEY(Order_ID),
         CONSTRAINT fk_us_ord FOREIGN KEY(User_email) REFERENCES CUSTOMER(email)
 );
+CREATE INDEX wo_email ON WEB_ORDER(User_email);
 
 CREATE TABLE C_CONTAINS (
     Order_ID        INT         NOT NULL,
@@ -168,7 +173,8 @@ CREATE TABLE REVIEWS (
     Rating          INT         NOT NULL,
         PRIMARY KEY(Email, Product_ID),
         CONSTRAINT fk_us_rev FOREIGN KEY(Email) REFERENCES CUSTOMER(Email),
-        CONSTRAINT fk_pro_rev FOREIGN KEY(Product_ID) REFERENCES PRODUCT(Product_ID)
+        CONSTRAINT fk_pro_rev FOREIGN KEY(Product_ID) REFERENCES PRODUCT(Product_ID),
+		CONSTRAINT rating_chk CHECK (Rating >=0 AND Rating <= 5)
 );
 
 CREATE TABLE CUSTOMER_ADDRESS (
@@ -184,6 +190,7 @@ ALTER TABLE EMPLOYEE    ADD CONSTRAINT fk_fac_emp FOREIGN KEY(Fac_ID)           
 ALTER TABLE STORES      ADD CONSTRAINT fk_pro_sto FOREIGN KEY(Product_ID)       REFERENCES PRODUCT(Product_ID);
 ALTER TABLE PRODUCT     ADD CONSTRAINT fk_man_pro FOREIGN KEY(Manufacturer_ID)  REFERENCES MANUFACTURER(Manufacturer_ID);
 ALTER TABLE WEB_ORDER   ADD CONSTRAINT fk_dis_ord FOREIGN KEY(Disp_ID)          REFERENCES DISPATCHER(Dispatcher_ID);
+
 
 
 /* Populate Tables */
@@ -316,3 +323,82 @@ INSERT INTO CUSTOMER_ADDRESS values
 ('bobgribben@gmail.com',    '1337 OSU Lane'),
 ('bobross@aim.com',         '411 Painters Way'),
 ('presidentdrake@osu.edu',  '614 Stadium Ave');
+
+GO
+
+CREATE TRIGGER checkUserOrder ON WEB_ORDER
+INSTEAD OF INSERT
+AS
+	declare @order_id int;
+	declare @user_email varchar(50);
+
+	select @order_id = i.Order_ID from inserted i;
+	select @user_email = i.User_email from inserted i;
+
+	BEGIN
+		if(@user_email IS NULL OR @order_id IS NULL)
+		begin
+			RAISERROR('Cannot add to table if order_id or user_email is null', 16, 1);
+			ROLLBACK;
+		end
+		else
+		begin
+			select @user_email = inserted.user_email
+			from CREDIT_CARD AS c, inserted
+			WHERE
+			c.user_email = inserted.user_email;
+
+		if(@user_email IS NULL)
+		begin 
+			RAISERROR('Cannot add to table if user does not have credit card', 16, 1);
+			ROLLBACK;
+		end
+	else
+		begin
+		insert into C_PLACES
+		(User_email, Order_ID)
+		values(@user_email, @order_id);
+				
+		insert into WEB_ORDER
+		(Order_ID, OCost, User_email, Disp_ID)
+		select @order_id, OCost, @user_email, Disp_ID
+		from inserted;
+		end
+		end
+	END
+GO
+
+CREATE TRIGGER checkProductType ON PRODUCT
+INSTEAD OF INSERT
+AS
+	declare @product_type float;
+
+	BEGIN
+		
+		select @product_type = i.Product_ID
+		from inserted as i
+		where i.Product_ID IN (Select CP_ID AS c
+								From COMPUTER
+								union
+								select CMP_ID
+								from COMPUTER_MOUSE
+								union
+								select TP_ID
+								from TELEVISION);
+								
+		
+
+		if(@product_type IS NULL)
+		Begin
+			RAISERROR('Cannot add to table if product is not computer, computer mouse, or television', 16, 1);
+		ROLLBACK;
+	End
+	else
+	Begin
+		Insert into PRODUCT
+		(Product_ID, Product_Name, Price, Manufacturer_ID)
+		Select @product_type, Product_Name, Price, Manufacturer_ID
+		From inserted;
+	End
+END
+GO

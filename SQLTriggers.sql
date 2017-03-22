@@ -27,7 +27,7 @@ AS
 		end
 	else
 		begin
-insert into U_PLACES
+		insert into U_PLACES
 		(User_email, Order_ID)
 		values(@user_email, @order_id);
 				
@@ -67,8 +67,8 @@ AS
 	else
 	Begin
 		Insert into PRODUCT
-		(Product_ID, Product_Name, Price, PManufacturer_ID)
-		Select @product_type, Product_Name, Price, PManufacturer_ID
+		(Product_ID, Product_Name, Price, Manufacturer_ID)
+		Select @product_type, Product_Name, Price, Manufacturer_ID
 		From inserted;
 	End
 END
