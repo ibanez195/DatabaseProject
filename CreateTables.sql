@@ -121,7 +121,7 @@ CREATE TABLE CUSTOMER (
 );
 
 CREATE TABLE CREDIT_CARD (
-    CC_no           VARCHAR(16)         NOT NULL,
+    CC_no           VARCHAR(16) NOT NULL,
     Exp_date        DATE        NOT NULL,
     User_email      VARCHAR(50) NOT NULL,
         PRIMARY KEY(CC_no),
