@@ -226,8 +226,12 @@ CREATE TRIGGER checkValidCC ON CREDIT_CARD
 INSTEAD OF INSERT
 AS
 	declare @credit_number varchar(16);
+    declare @Exp_date      date;
+    declare @User_email    varchar(50);
 
 	select @credit_number=i.CC_no from inserted i;
+	select @Exp_date=i.Exp_date from inserted i;
+	select @User_email=i.User_email from inserted i;
 
 	BEGIN
 		if(len(@credit_number) < 16 OR len(@credit_number) > 16)
@@ -235,6 +239,10 @@ AS
 			RAISERROR('Invalid Credit Card Number: < 16 Digits', 16, 1);
 			ROLLBACK;
 		end
+        else
+        begin
+            insert INTO WEB_ORDER VALUES (@credit_number, @Exp_date, @User_email);
+        end
 	END
 
 GO
