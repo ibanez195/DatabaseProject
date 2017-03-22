@@ -43,23 +43,11 @@ CREATE TRIGGER checkProductType ON PRODUCT
 INSTEAD OF INSERT
 AS
 	declare @product_type float;
+	select @product_type = i.Product_ID from inserted i;
 
 	BEGIN
 		
-		select @product_type = i.Product_ID
-		from inserted as i
-		where i.Product_ID IN (Select CP_ID AS c
-								From COMPUTER
-								union
-								select CMP_ID
-								from COMPUTER_MOUSE
-								union
-								select TP_ID
-								from TELEVISION);
-								
-		
-
-		if(@product_type IS NULL)
+		if(@product_type IS NULL OR @product_type > 99999999 OR @product_type < 10000000)
 		Begin
 			RAISERROR('Cannot add to table if product is not computer, computer mouse, or television', 16, 1);
 		ROLLBACK;
