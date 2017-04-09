@@ -241,7 +241,7 @@ AS
 		end
         else
         begin
-            insert INTO WEB_ORDER VALUES (@credit_number, @Exp_date, @User_email);
+            insert INTO CREDIT_CARD VALUES (@credit_number, @Exp_date, @User_email);
         end
 	END
 
