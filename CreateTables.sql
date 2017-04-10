@@ -345,25 +345,35 @@ INSERT INTO AD values
 INSERT INTO CUSTOMER values
 ('bobgribben@gmail.com',    'Gribben',  'Bob',          'resetMypassw0rd',  '6145239272'),
 ('bobross@aim.com',         'Ross',     'Bob',          'alittl3mor3blu3',  '3392287409'),
-('presidentdrake@osu.edu',  'Drake',    'President',    '123buckeyes',      '6145259384');
+('presidentdrake@osu.edu',  'Drake',    'President',    '123buckeyes',      '6145259384'),
+('albertsims@hotmail.com',	'Simmons',	'Albert',		'hunter2',			'9675347045');
 
 INSERT INTO CREDIT_CARD values
 ('8112671562529948', '2017-11-11', 'bobgribben@gmail.com'),
 ('3883777738387070', '2021-06-06', 'bobross@aim.com'),
-('1111222233334444', '2019-01-01', 'presidentdrake@osu.edu');
+('1111222233334444', '2019-01-01', 'presidentdrake@osu.edu'),
+('5146754890902045', '2018-08-20', 'albertsims@hotmail.com');
 
 INSERT INTO DISPATCHER values
 (416553, 'UPS'),
 (614614, 'FedEx');
 
 INSERT INTO WEB_ORDER values
-(234234, 52, 'bobgribben@gmail.com',    614614);
+(234234, 200, 'bobgribben@gmail.com',    614614);
 INSERT INTO WEB_ORDER values
-(345345, 15, 'bobross@aim.com',         416553);
+(345345, 540, 'bobross@aim.com',         416553);
+INSERT INTO WEB_ORDER values
+(123123, 1135, 'albertsims@hotmail.com', 416553);
+INSERT INTO WEB_ORDER values
+(112233, 200, 'bobross@aim.com',		614614);
 
 INSERT INTO C_CONTAINS values
 (234234, 32123437, 1),
-(345345, 96707578, 2);
+(345345, 96707578, 2),
+(123123, 55445676, 1),
+(123123, 85768374, 1),
+(123123, 55599778, 2),
+(112233, 32123437, 1);
 
 
 
