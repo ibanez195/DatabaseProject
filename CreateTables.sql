@@ -349,9 +349,12 @@ INSERT INTO CUSTOMER values
 ('albertsims@hotmail.com',	'Simmons',	'Albert',		'hunter2',			'9675347045');
 
 INSERT INTO CREDIT_CARD values
-('8112671562529948', '2017-11-11', 'bobgribben@gmail.com'),
-('3883777738387070', '2021-06-06', 'bobross@aim.com'),
-('1111222233334444', '2019-01-01', 'presidentdrake@osu.edu'),
+('8112671562529948', '2017-11-11', 'bobgribben@gmail.com');
+INSERT INTO CREDIT_CARD values
+('3883777738387070', '2021-06-06', 'bobross@aim.com');
+INSERT INTO CREDIT_CARD values
+('1111222233334444', '2019-01-01', 'presidentdrake@osu.edu');
+INSERT INTO CREDIT_CARD values
 ('5146754890902045', '2018-08-20', 'albertsims@hotmail.com');
 
 INSERT INTO DISPATCHER values
