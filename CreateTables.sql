@@ -343,13 +343,13 @@ INSERT INTO AD values
 
 
 INSERT INTO CUSTOMER values
-('bobgribben@gmail.com',    'Gribben',  'Bob',          'resetMypassw0rd',  '6145239272'),
+('chriscrain@gmail.com',    'Crain',	'Chris',          'resetMypassw0rd',  '6145239272'),
 ('bobross@aim.com',         'Ross',     'Bob',          'alittl3mor3blu3',  '3392287409'),
 ('presidentdrake@osu.edu',  'Drake',    'President',    '123buckeyes',      '6145259384'),
 ('albertsims@hotmail.com',	'Simmons',	'Albert',		'hunter2',			'9675347045');
 
 INSERT INTO CREDIT_CARD values
-('8112671562529948', '2017-11-11', 'bobgribben@gmail.com');
+('8112671562529948', '2017-11-11', 'chriscrain@gmail.com');
 INSERT INTO CREDIT_CARD values
 ('3883777738387070', '2021-06-06', 'bobross@aim.com');
 INSERT INTO CREDIT_CARD values
@@ -362,7 +362,7 @@ INSERT INTO DISPATCHER values
 (614614, 'FedEx');
 
 INSERT INTO WEB_ORDER values
-(234234, 200, 'bobgribben@gmail.com',    614614);
+(234234, 200, 'chriscrain@gmail.com',    614614);
 INSERT INTO WEB_ORDER values
 (345345, 540, 'bobross@aim.com',         416553);
 INSERT INTO WEB_ORDER values
@@ -381,11 +381,12 @@ INSERT INTO C_CONTAINS values
 
 
 INSERT INTO REVIEWS values
-('bobgribben@gmail.com',    96707578, 'It asked me to create a new password. Would recommend.', 5),
+('chriscrain@gmail.com',    96707578, 'It asked me to create a new password. Would recommend.', 5),
 ('bobross@aim.com',         32123437, 'Not impressed. I thought a Dell would sing.',            2);
 
 INSERT INTO CUSTOMER_ADDRESS values
-('bobgribben@gmail.com',    '1337 OSU Lane'),
+('chriscrain@gmail.com',    '1337 OSU Lane'),
 ('bobross@aim.com',         '411 Painters Way'),
-('presidentdrake@osu.edu',  '614 Stadium Ave');
+('presidentdrake@osu.edu',  '614 Stadium Ave'),
+('albertsims@hotmail.com', '222 Way Way');
 
