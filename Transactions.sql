@@ -61,7 +61,7 @@ BEGIN TRAN main
 	SAVE TRAN updaterec
 	SELECT 'After SAVE TRAN updaterec', @@TRANCOUNT
 SELECT * FROM employee
-	ROLLBACK TRAN addrec
+	ROLLBACK TRAN ins
 	SELECT 'After ROLLBACK TRAN addrec', @@TRANCOUNT
 	SELECT * FROM employee
 IF (@@TRANCOUNT > 0) BEGIN
