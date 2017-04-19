@@ -7,7 +7,7 @@ UNION
 
 SELECT p.Product_Name, p.Price, p.Product_ID, p.Manufacturer_ID
 FROM PRODUCT as p, COMPUTER_MOUSE as cm
-WHERE cm.CMP_ID = p.Product_ID
+WHERE cm.CMP_ID = p.Product_ID;
 
 /* 2. Retrieve information about employees (Name, email, phone number) 
    hat have the same name as customers */
@@ -21,7 +21,7 @@ INTERSECT
 
 SELECT LastName
 FROM EMPLOYEE
-)
+);
 
 /* 3. Retrieve all facility managers who have an inventory of
    over 500 for an item in their facility */
