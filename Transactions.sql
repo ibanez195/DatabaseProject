@@ -45,6 +45,7 @@ SELECT 'After ROLLBACK TRAN', @@TRANCOUNT -- The value of @@TRANCOUNT is 0
 SELECT * FROM EMPLOYEE
 
 -- Transaction with save points
+-- Insterts a new employee Louie and then rolls back the changes
 SELECT 'Before BEGIN TRAN', @@TRANCOUNT
 BEGIN TRAN main
 	SELECT 'After BEGIN TRAN main', @@TRANCOUNT
