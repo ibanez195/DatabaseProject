@@ -59,3 +59,7 @@ INNER JOIN C_CONTAINS ON WEB_ORDER.Order_ID = C_CONTAINS.Order_ID
 INNER JOIN PRODUCT ON C_CONTAINS.Product_ID = PRODUCT.Product_ID
 INNER JOIN TELEVISION ON Product.Product_ID = TELEVISION.TP_ID
 
+/* 7. Outer join Customer tables with web order table */
+SELECT *
+FROM CUSTOMER
+FULL OUTER JOIN WEB_ORDER ON  Email = User_email

@@ -45,27 +45,28 @@ SELECT 'After ROLLBACK TRAN', @@TRANCOUNT -- The value of @@TRANCOUNT is 0
 SELECT * FROM EMPLOYEE
 
 -- Transaction with save points
+-- Insterts a new employee Louie and then rolls back the changes
 SELECT 'Before BEGIN TRAN', @@TRANCOUNT
 BEGIN TRAN main
 	SELECT 'After BEGIN TRAN main', @@TRANCOUNT
 	INSERT INTO EMPLOYEE values (555, 'Szekeley', 'Louie', null, 6, 3)
 	SAVE TRAN ins
 	SELECT 'After SAVE TRAN ins', @@TRANCOUNT
-	SELECT * FROM employee
+	SELECT * FROM EMPLOYEE
 	BEGIN TRAN nested
 	SELECT 'After BEGIN TRAN nested', @@TRANCOUNT
-	UPDATE employee
+	UPDATE EMPLOYEE
 	SET EmpManager_ID = 234
 	WHERE Emp_ID = 555
 
 	SAVE TRAN updaterec
 	SELECT 'After SAVE TRAN updaterec', @@TRANCOUNT
-SELECT * FROM employee
+SELECT * FROM EMPLOYEE
 	ROLLBACK TRAN ins
 	SELECT 'After ROLLBACK TRAN addrec', @@TRANCOUNT
-	SELECT * FROM employee
+	SELECT * FROM EMPLOYEE
 IF (@@TRANCOUNT > 0) BEGIN
 	ROLLBACK TRAN
 	SELECT 'AFTER ROLLBACK TRAN', @@TRANCOUNT
 END
-SELECT * FROM employee
+SELECT * FROM EMPLOYEE
